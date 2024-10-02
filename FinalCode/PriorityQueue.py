@@ -94,6 +94,7 @@ class PriorityQueue(Generic[T]):
         """
         self._min_heap.clear()
         self._len = 0
+        self._counter = counter()
 
 
     def __len__(self) -> int: return self._len
