@@ -1,7 +1,7 @@
 import heapq as hq
 
 from typing import TypeVar, Generic, Iterator,\
-                   Iterable, Hashable, Optional
+                   Iterable, Optional
 T = TypeVar('T')
 
 
@@ -23,7 +23,7 @@ class PriorityQueue(Generic[T]):
     - Sortable: must implement a `__lt__` method.
     - Hashable: must implement a `__hash__` method.
     """
-    __slots__ = "_min_heap", "_items_list", "_counter", '_len'
+    __slots__ = "_min_heap", "_items_list", "_counter", "_len"
     def __init__(self, items: Optional[Iterable[T]] = None) -> None:
         self._min_heap: list[list[T, int, bool]] = []
         self._items_list: dict[T, list[T, int, bool]] = {}
