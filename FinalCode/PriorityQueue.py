@@ -5,8 +5,6 @@ from typing import TypeVar, Generic, Iterator,\
 T = TypeVar('T')
 
 
-REMOVED_FLAG: bool = True
-
 # Item = [item, count, is_removed]
 # count used for FIFO structuring when priority is equal
 
@@ -41,7 +39,7 @@ class PriorityQueue(Generic[T]):
         ## Exceptions:
         Raise KeyError if item is not found in queue.
         """
-        self._items_list[item][2] = REMOVED_FLAG
+        self._items_list[item][2] = True
         self._len -= 1
     
     def push(self, item: T) -> None:
