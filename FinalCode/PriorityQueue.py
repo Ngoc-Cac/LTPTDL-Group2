@@ -79,6 +79,7 @@ class PriorityQueue(Generic[T]):
         Clear the queue.
         """
         self._min_heap.clear()
+        self._items_list.clear()
         self._counter = counter()
 
 
