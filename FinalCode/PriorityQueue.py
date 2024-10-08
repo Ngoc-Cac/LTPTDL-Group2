@@ -29,7 +29,7 @@ class PriorityQueue(Generic[T]):
 
         if items:
             for item in items: self.push(item)
-    
+
     def push(self, item: T) -> None:
         """
         Insert a new item. If item already exists, update the item priority instead.\n
@@ -79,6 +79,7 @@ class PriorityQueue(Generic[T]):
         Clear the queue.
         """
         self._min_heap.clear()
+        self._items_list.clear()
         self._counter = counter()
 
 
