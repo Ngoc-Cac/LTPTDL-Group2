@@ -69,6 +69,7 @@ class Node:
     
     def __hash__(self) -> int:
         return hash(self.id)
+    
     def __eq__(self, other: Union['Node', str]) -> bool:
         if isinstance(other, Node): return self.id == other.id
         elif isinstance(other, str): return self.id == other
