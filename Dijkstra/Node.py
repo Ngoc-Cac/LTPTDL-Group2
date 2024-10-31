@@ -38,22 +38,22 @@ def from_csv(filename: str) -> tuple[dict[str, tuple[int, 'Node']], list[list[fl
 
     nodes: dict[str, tuple[int, 'Node']] = {}
     node_index = 0
-    for row in lines:
-        if not row[0] in nodes:
-            nodes[row[0]] = (node_index, Node(row[0]))
+    for v_from, v_to, _ in lines:
+        if not v_from in nodes:
+            nodes[v_from] = (node_index, Node(v_from))
             node_index += 1
-        if not row[1] in nodes:
-            nodes[row[1]] = (node_index, Node(row[0]))
+        if not v_to in nodes:
+            nodes[v_to] = (node_index, Node(v_to))
             node_index += 1
     
     adjacency_mat = [[0] * len(nodes) for _ in range(len(nodes))]
-    for row in lines:
-        index_from, node_from = nodes[row[0]]
-        index_to, node_to = nodes[row[1]]
-        node_from.neighbours.append(node_to.id)
-        node_to.neighbours.append(node_from.id)
-        adjacency_mat[index_from][index_to] = float(row[2])
-        adjacency_mat[index_to][index_from] = float(row[2])
+    for v_from, v_to, weight in lines:
+        index_from, node_from = nodes[v_from]
+        index_to, node_to = nodes[v_to]
+        node_from.neighbours.append(node_to)
+        node_to.neighbours.append(node_from)
+        adjacency_mat[index_from][index_to] = float(weight)
+        adjacency_mat[index_to][index_from] = float(weight)
     return nodes, adjacency_mat
 
 class Node:
