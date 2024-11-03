@@ -98,7 +98,8 @@ class PriorityQueue(Generic[T]):
         ## Parameters:
         item (T): item to get attribute of\n
         attr (str): the attribute to get\n
-        default_value (Any | None): the default value to return if item is not found
+        default_value (Any | None): the default value to return if item is not found.\
+            Value is `None` by default.
 
         -------
         ## Raises:
@@ -107,7 +108,7 @@ class PriorityQueue(Generic[T]):
         Parameters:
         item (T): item to get attribute of
         attr (str): the attribute to get
-        default_value (Any | None): the default value to return if item is not found
+        default_value (Any | None): the default value to return if item is not found. Value is `None` by default
         """
         if item in self._items_list:
             return getattr(self._items_list[item][0], attr)
