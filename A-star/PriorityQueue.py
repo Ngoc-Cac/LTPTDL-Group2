@@ -8,7 +8,10 @@ T = TypeVar('T')
 # item = [item, count, is_removed]
 # count used for FIFO structuring when priority is equal
 
-def counter() -> Iterator[int]:
+def _counter() -> Iterator[int]:
+    """
+    Generator for infinite counting. Value starts from 1.
+    """
     num = 0
     while (num := num + 1): yield num
 
@@ -17,15 +20,26 @@ class PriorityQueue(Generic[T]):
     Priority Queue implemented with minimum heap. This priority queue supports\
     updating elements as well as supporting FIFO order for items with equal priority.\n
     
+    ### Usage Notes:
     In order for the queue to work, items in queue need to be:
     - Sortable: must implement a `__lt__` method.
-    - Hashable: must implement a `__hash__` method.
+    - Hashable: must implement a `__hash__` method.\n
+    Note that equivalent items (a == b) MUST have the same hash (hash(a) == hash(b)).\
+        If not, this might cause unexpected behaviour.
+
+    -----------
+    ## Methods:
+    push: insert item to queue or update item's priority if already exists.\n
+    pop: removes and return item with highest priority.\n
+    seek: return item with highest priority (does not remove item).\n
+    clear: clear the queue.\n
+    get_attr: get an attribute of item in queue.
     """
     __slots__ = "_min_heap", "_items_list", "_counter"
     def __init__(self, items: Optional[Iterable[T]] = None) -> None:
         self._min_heap: list[list[T, int, bool]] = []
         self._items_list: dict[T, list[T, int, bool]] = {}
-        self._counter = counter()
+        self._counter = _counter()
 
         if items:
             for item in items: self.push(item)
@@ -87,7 +101,7 @@ class PriorityQueue(Generic[T]):
         """
         self._min_heap.clear()
         self._items_list.clear()
-        self._counter = counter()
+        self._counter = _counter()
 
     def get_attr(self, item: T, attr: str, *, default_value = None):
         """
