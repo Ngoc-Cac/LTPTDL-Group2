@@ -32,13 +32,20 @@ class PriorityQueue(Generic[T]):
 
     def push(self, item: T) -> None:
         """
-        Insert a new item. If item already exists, update the item priority instead.\n
+        Insert a new item. If item already exists, update the item priority instead.
 
-        ------------\n
-        ## Exceptions:
-        Raise TypeError if:
+        --------------
+        ## Parameters:
+        item (T) : item to push to queue.
+
+        ---------
+        ## Raises
+        TypeError if:
         - Item is not sortable (do not have a `__lt__` method).
         - Item is not hashable (do not have a `__hash__` method).
+
+        Parameters:
+        item (T) : item to push to queue.
         """
         # Remove item if already exists
         if item in self._items_list:
@@ -53,9 +60,9 @@ class PriorityQueue(Generic[T]):
         """
         Remove and return the item with smallest priority.\n
 
-        ------------\n
-        ## Exceptions:
-        Raise IndexError is queue is empty.
+        ---------
+        ## Raises
+        IndexError if queue is empty.
         """
         while self._min_heap:
             item, _, is_removed = hq.heappop(self._min_heap)
@@ -81,6 +88,30 @@ class PriorityQueue(Generic[T]):
         self._min_heap.clear()
         self._items_list.clear()
         self._counter = counter()
+
+    def get_attr(self, item: T, attr: str, *, default_value = None):
+        """
+        Get the attribute of item stored in PriorityQueue. If item is not found, return\
+        the default value instead.
+        
+        --------------
+        ## Parameters:
+        item (T): item to get attribute of\n
+        attr (str): the attribute to get\n
+        default_value (Any | None): the default value to return if item is not found
+
+        -------
+        ## Raises:
+        Exception if attr does not exist
+
+        Parameters:
+        item (T): item to get attribute of
+        attr (str): the attribute to get
+        default_value (Any | None): the default value to return if item is not found
+        """
+        if item in self._items_list:
+            return getattr(self._items_list[item][0], attr)
+        else: return default_value
 
 
     def __len__(self) -> int: return len(self._items_list)
