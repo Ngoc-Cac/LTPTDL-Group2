@@ -85,4 +85,4 @@ class PriorityQueue(Generic[T]):
 
     def __len__(self) -> int: return len(self._items_list)
 
-    def __bool__(self) -> bool: return len(self) != 0
+    def __bool__(self) -> bool: return bool(self._items_list)
