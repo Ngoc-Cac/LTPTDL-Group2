@@ -130,13 +130,15 @@ class Cell:
             # cost to go from previous state to this state +
             # cost to clean the cell after n movements
             self.cost = self.parent.cost +\
-            distance(self.parent.position, self.position, p=inf) +\
-            self.moves + 1
+                        distance(self.parent.position, self.position, p=inf) +\
+                        self.moves + 1
     
     def _heu_cost(self) -> None:
         self.heuristic_cost = 0
         for cell_pos in self.dirty_cells:
             self.heuristic_cost += distance(self.position, cell_pos, p=inf)
+        if len(self.dirty_cells) != 0:
+            self.heuristic_cost /= len(self.dirty_cells)
         
 
     def __eq__(self, other: 'Cell') -> bool:
