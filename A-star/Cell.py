@@ -146,8 +146,7 @@ class Cell:
                (self.dirty_cells == other.dirty_cells)
     
     def __hash__(self) -> int:
-        self_id = str(self.position[0]) + str(self.position[1])
-        return hash(self_id)
+        return hash(self.position)
     
     def __lt__(self, other: 'Cell') -> bool:
         return (self.cost + self.heuristic_cost) < (other.cost + other.heuristic_cost)
