@@ -77,28 +77,20 @@ class Position(tuple):
 
 
 class Cell:
-    __slots__ = 'position', 'parent', 'grid_dim', 'dirty_cells', 'moves', 'cost', 'heuristic_cost'
-    def __init__(self, position: Position, grid_dim: tuple[int, int],
-                 dirty_cells: Iterable[Position], moves: int = 0,
-                 parent: Optional['Cell'] = None,) -> None:
+    __slots__ = 'position', 'parent', 'dirty_cells', 'moves', 'cost', 'heuristic_cost'
+    def __init__(self, position: Position, dirty_cells: Iterable[Position],
+                 moves: int = 0, parent: Optional['Cell'] = None) -> None:
         if not isinstance(position, Position):
             raise TypeError("position must be of type Position")
         elif (position.x < 1) or (position.y < 1):
             raise ValueError("position of cell must be larger than (1, 1)")
         if not isinstance(parent, Optional[Cell]):
             raise TypeError("parent must be of type Cell or None")
-        if not isinstance(grid_dim, tuple):
-            raise TypeError("grid_dim must be a tuple of int representing the number of rows and cols")
-        elif not all(isinstance(value, int) for value in grid_dim):
-            raise TypeError("non-integer type passed in grid_dim")
-        elif grid_dim[0] < 1 or grid_dim[1] < 1:
-            raise ValueError(f"Invalid grid dimensions {grid_dim}")
         if not isinstance(moves, int):
             raise TypeError("moves must be a positive integer")
 
         self.position = position
         self.parent = parent
-        self.grid_dim = grid_dim
         self.moves = moves
 
         self.dirty_cells = set()
@@ -113,9 +105,9 @@ class Cell:
         neighbours = []
 
         for new_pos in self.dirty_cells:
-            neighbours.append(Cell(new_pos, parent=self, grid_dim=self.grid_dim,
-                                  dirty_cells=self.dirty_cells - {new_pos},
-                                  moves=self.moves + distance(self.position, new_pos, p=inf)))
+            neighbours.append(Cell(new_pos, parent=self,
+                                   dirty_cells=self.dirty_cells - {new_pos},
+                                   moves=self.moves + distance(self.position, new_pos, p=inf)))
         return neighbours
     
 
