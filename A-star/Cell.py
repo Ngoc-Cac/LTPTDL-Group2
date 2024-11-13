@@ -18,7 +18,7 @@ def distance(point1: 'Position', point2: 'Position', *, p: numeric = 2) -> float
     --------------
     ## Raises:
     TypeError if p is not int or float
-    ValueError if p is not a positive integer
+    ValueError if p is not larger than or equal to 1
 
     Parameters:
     point1 (Position): coordinates of first point
@@ -26,9 +26,9 @@ def distance(point1: 'Position', point2: 'Position', *, p: numeric = 2) -> float
     p (int | float): the p degree in p-norm. By default, function gives Euclidian distance (p = 2)
     """
     if not isinstance(p, numeric):
-        raise TypeError("p must be a positive integer")
+        raise TypeError("p must be a number larger than or equal to 1")
     elif p < 1:
-        raise ValueError("p must be a positive integer")
+        raise ValueError("p must be a number larger than or equal to 1")
     
     if p is inf: return max(abs(point1.x - point2.x), abs(point1.y - point2.y))
     else: return (abs(point1.x - point2.x) ** p + abs(point1.y - point2.y) ** p) ** (1 / p)
