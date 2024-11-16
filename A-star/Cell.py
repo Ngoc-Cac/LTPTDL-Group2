@@ -128,9 +128,7 @@ class Cell:
     def _heu_cost(self) -> None:
         self.heuristic_cost = 0
         for cell_pos in self.dirty_cells:
-            self.heuristic_cost += distance(self.position, cell_pos, p=inf)
-        if len(self.dirty_cells) != 0:
-            self.heuristic_cost /= len(self.dirty_cells)
+            self.heuristic_cost += distance(self.position, cell_pos, p=inf) + self.moves + 1
         
 
     def __eq__(self, other: 'Cell') -> bool:
