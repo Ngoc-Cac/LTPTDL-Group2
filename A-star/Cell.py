@@ -132,6 +132,8 @@ class Cell:
         
 
     def __eq__(self, other: 'Cell') -> bool:
+        if not isinstance(other, Cell):
+            return False
         return (self.position == other.position) and\
                (self.dirty_cells == other.dirty_cells)
     
@@ -139,4 +141,6 @@ class Cell:
         return hash(self.position)
     
     def __lt__(self, other: 'Cell') -> bool:
+        if not isinstance(other, Cell):
+            raise TypeError(f"'<' not supported between instances of Cell and {type(other)}")
         return (self.cost + self.heuristic_cost) < (other.cost + other.heuristic_cost)
