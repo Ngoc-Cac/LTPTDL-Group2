@@ -80,6 +80,31 @@ class Cell:
     __slots__ = 'position', 'parent', 'dirty_cells', 'moves', 'cost', 'heuristic_cost'
     def __init__(self, position: Position, dirty_cells: Iterable[Position],
                  moves: int = 0, parent: Optional['Cell'] = None) -> None:
+        """
+        Initialize a Cell instance.
+        
+        Note: Optional parameters are not meant to be passed when initializing a start state.
+
+        ## Parameters:
+        position (Position): the current position of the robot
+
+        dirty_cells (Iterable[Position]): a collection of dirty cells' positions
+
+        moves (int): the number of moves robot has made.
+        This is 0 by default and should not be passed in for start state.
+        
+        parent (Cell): the previous state.
+        This is `None` by default and should not be passed in for start state. 
+
+
+        Parameters:
+        position (Position): the current position of the robot
+        dirty_cells (Iterable[Position]): a collection of dirty cells' positions
+        moves (int): the number of moves robot has made. This is 0 by default and\
+        should not be passed in for start state.
+        parent (Cell): the previous state. This is None by default and\
+        should not be passed in for start state. 
+        """
         if not isinstance(position, Position):
             raise TypeError("position must be of type Position")
         elif (position.x < 1) or (position.y < 1):
@@ -102,6 +127,16 @@ class Cell:
         self.calc_cost()
 
     def expand_cell(self) -> list['Cell']:
+        """
+        Find neighbouring 'cell'.
+        
+        Here neighbouring cell does not imply cells with positions next to
+        the current position. Neighbouring cells here mean the next dirty cell
+        that the robot can go to and clean.
+        
+        For example, with dirty cells {(1, 1), (1, 2)}. Function returns two Cell
+        instances, one with position at (1, 1) and one with position at (1, 2)
+        """
         neighbours = []
 
         for new_pos in self.dirty_cells:
@@ -112,10 +147,16 @@ class Cell:
     
 
     def calc_cost(self) -> None:
+        """
+        Update cost and heuristic cost of current cell
+        """
         self._cost()
         self._heu_cost()
     
     def _cost(self) -> None:
+        """
+        Calculate the cost at the current cell
+        """
         if self.parent is None: self.cost = 0
         else:
             # previous cost +
@@ -126,6 +167,12 @@ class Cell:
                         self.moves + 1
     
     def _heu_cost(self) -> None:
+        """
+        Calculate the heuristic cost. Heuristic cost is the total cost to clean\
+        every other dirty cells, assuming that the cleaning cost is constant\
+        and the distance to the dirty cells is equal to the chebyshev distance\
+        between current position and the dirty cells' position. 
+        """
         self.heuristic_cost = 0
         for cell_pos in self.dirty_cells:
             self.heuristic_cost += distance(self.position, cell_pos, p=inf) + self.moves + 1
