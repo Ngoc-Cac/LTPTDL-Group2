@@ -6,14 +6,17 @@ from typing import Optional, Union
 
 def from_csv(filename: str) -> tuple[dict[str, tuple[int, 'Node']], list[list[float]]]:
     """
-    Construct list of nodes and adjacenc matrix from csv files. Each line in file must be\
-    a tuple of edges, that is (v_from, v_to, weight).\n
+    Construct list of nodes and adjacency matrix from csv file. Each line in file must be
+    a tuple representing edges in the graph, that is v_from, v_to, weight. This function
+    assumes the graph is **undirected**.
+
     ## Parameters:
     \tfilename: path to csv file
     ## Returns:
-    \tA tuple containing the nodes and adjencency matrix. Nodes are stored as dictionary\
-    with key-value pair being node_id (node label) and (node_index, Node object). Note that\
-    adjacency matrix must be read using node_index.\n
+    \tA tuple containing the nodes and adjencency matrix. Nodes are stored as dictionary
+    with key-value pair being node_id (node label) and (node_index, Node object). **Note that
+    adjacency matrix must be read using node_index.**
+
     For example, consider the following csv file:
     ```
     0, 2, 3
@@ -21,7 +24,7 @@ def from_csv(filename: str) -> tuple[dict[str, tuple[int, 'Node']], list[list[fl
     2, 1, 1
     0, 3, 4
     ```
-    then\n
+    then the function will return nodes and adjacency_matrix with the following result:
     ```
     nodes = {'0': (0, Node object),
              '2': (1, Node object),
@@ -32,6 +35,8 @@ def from_csv(filename: str) -> tuple[dict[str, tuple[int, 'Node']], list[list[fl
                       [2, 1, 0, 0],
                       [4, 0, 0, 0]]
     ```
+    The weight of the edge connecting vertices from '0' to '2' will be the value of the element
+    at row 0, column 1 in the matrix.
     """
     with open(filename, newline='') as csvfile:
         lines = list(reader(csvfile, delimiter=','))
@@ -57,6 +62,18 @@ def from_csv(filename: str) -> tuple[dict[str, tuple[int, 'Node']], list[list[fl
     return nodes, adjacency_mat
 
 class Node:
+    """
+    Data container to represent nodes of a graph.
+
+    # Attributes:
+    id: the id, more specifically, the name of the node\
+    
+    neighbours: the adjacent nodes to the current node\
+    
+    distance: the distance from an arbitrary source node to this current node.
+    By default, this is infinity as there are no path yet discovered. This attribute is
+    used specifically by dijkstra's algorithm.
+    """
     __slots__ = 'id', 'neighbours', 'distance'
     def __init__(self, id: str, *,
                  neighbours: Optional[list['Node']] = None) -> None:
