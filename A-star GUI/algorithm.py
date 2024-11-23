@@ -3,31 +3,6 @@ from Cell import Position, Cell
 
 from typing import Iterable, Optional
 
-def chebyshev_move(start: Position, end: Position) -> tuple[list[int], list[int]]:
-    cur_x, cur_y = start
-    xs = [cur_x]
-    ys = [cur_y]
-
-    while (cur_x != end.x) or (cur_y != end.y):
-        dx = end.x - cur_x
-        dy = end.y-cur_y
-        if abs(dx) == abs(dy):
-            # cur_x > end.x -> decrease x
-            if dx < 0: cur_x -= 1
-            else: cur_x += 1
-
-            #cur_y > end.y -> decrease y
-            if dy < 0: cur_y -= 1
-            else: cur_y += 1
-        elif abs(dx) < abs(dy):
-            if dy < 0: cur_y -= 1
-            elif dy > 0: cur_y += 1
-        else:
-            if dx < 0: cur_x -= 1
-            elif dx > 0: cur_x += 1
-        xs.append(cur_x)
-        ys.append(cur_y)
-    return xs, ys
 def chebyshev_move(start: Position, end: Position) -> list[Position]:
     cur_x, cur_y = start
     positions = [start]
