@@ -6,19 +6,19 @@ T = TypeVar('T')
 
 
 # item = [item, count, is_removed]
-# count used for FIFO structuring when priority is equal
+# count used for LIFO structuring when priority is equal
 
 def _counter() -> Iterator[int]:
     """
     Generator for infinite counting. Value starts from 1.
     """
     num = 0
-    while (num := num + 1): yield num
+    while (num := num - 1): yield num
 
 class PriorityQueue(Generic[T]):
     """
     Priority Queue implemented with minimum heap. This priority queue supports\
-    updating elements as well as supporting FIFO order for items with equal priority.\n
+    updating elements as well as supporting LIFO order for items with equal priority.\n
     
     ### Usage Notes:
     In order for the queue to work, items in queue need to be:
