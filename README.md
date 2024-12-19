@@ -26,5 +26,4 @@ If the executable does not work, you can instead run the source code directly, p
 Nguyễn Tấn Gia Bảo\
 Trịnh Ngọc Các\
 Nguyễn Thị Ngọc Diệp\
-Phan Phạm Thành Đạt\
 Nguyễn Đôn Đức
